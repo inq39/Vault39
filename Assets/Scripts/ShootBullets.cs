@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ShootBullets : MonoBehaviour
 {
-    [SerializeField] private GameObject _bulletPrefab;   
+    [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private float _fireRate;
-    
     private float _fireRateTimer;
+    private GameObject _bulletSpawnPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _bulletSpawnPosition = GameObject.FindWithTag("Bullets");
+
+        if(_bulletSpawnPosition == null)
+        {
+            Debug.LogError("_bulletSpawnPosition is null.");
+        }
     }
 
     // Update is called once per frame
@@ -26,7 +31,7 @@ public class ShootBullets : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && _fireRateTimer >= _fireRate)
         {
-            GameObject bullet = Instantiate(_bulletPrefab, transform.position, transform.parent.rotation); 
+            Instantiate(_bulletPrefab, _bulletSpawnPosition.transform.position, transform.rotation);
             _fireRateTimer = 0;
 
         }
